@@ -230,9 +230,10 @@ The destination file will be truncated.
 Android support
 ---------------
 
-This library implements a streambuf that makes `cout` redirect its output to Android's [logcat] log viewer. This is automatically set when you use **logtrace** for the first time. This **streambuf** is largely based on the answer for [this][Android streambuf] StackOverflow question.
+This library implements a [`streambuf`] that makes `cout` redirect its output to Android's [logcat] log viewer. This is automatically set when you use **logtrace** for the first time. This **streambuf** is largely based on the answer for [this][Android streambuf] StackOverflow question.
 
 [1]: http://www.cplusplus.com/reference/iostream/cout/
 [output operators]: http://www.parashift.com/c++-faq/output-operator.html
 [logcat]: http://developer.android.com/tools/help/logcat.html
 [Android streambuf]: http://stackoverflow.com/questions/8870174/is-stdcout-usable-in-android-ndk
+[streambuf]: http://www.cplusplus.com/reference/streambuf/streambuf/
