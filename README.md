@@ -19,7 +19,7 @@ By default, logging is **disabled** and all **logtrace** related calls will do n
 Quickstart
 ----------
 
-To log your stuff, create an instance of the `logtrace` class and use it to print stuff, like this:
+To log your stuff, create an instance of the `logtrace` class and use it to print messages, like this:
 
 
 
