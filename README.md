@@ -1,13 +1,13 @@
 The logtrace logging library
 ============================
 
-**logtrace** is a C++11 *single-header* library for adding logging capabilities to your application. It features multiple verbosity levels, nested function tracing (indented information when entering or leaving a function) and inclusive and exclusive filtering. It also features Android [logcat] support :)
+**logtrace** is a C++11 library for adding logging capabilities to your application. It features multiple verbosity levels, nested function tracing (indented information when entering or leaving a function) and inclusive and exclusive filtering. It also features Android [logcat] support :)
 
 It was designed to be as unobtrusive as possible and to keep your code free of such `LOGLIBRARY_LOGMESSAGE_ERROR("hi?")` macros. No explicit inicialization required.
 
 Installation
 ------------
-Drop logtrace.h into your project where your source files can see it.
+Drop logtrace.h and logtrace.cc into your project where your source files can see it. Compile and link logtrace.cc together with your source files.
 
 Using
 -----
