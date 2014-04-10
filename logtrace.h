@@ -201,6 +201,7 @@
       
     public:
       static verbosity & globalverb(); /*! global verbosity level of the logstream */
+      static verbosity & globalverb(const verbosity &newverb); /*! global verbosity level of the logstream */
       static std::set<std::string> & filter(); /*! set of filter strings for module names */
       static std::set<std::string> & ignore(); /*! set of ignore filter strings for module names */
     
@@ -232,43 +233,9 @@
       void mark(); /* put the "entering in" when needed */
   };
   
-  
-  /* static calls */
-  std::ostream *& logtrace::logstream() {
-    static std::ostream * stream = &std::cout;
-    return stream;
-  }
-  
-  int & logtrace::indent() {
-    static int i = 0;
-    return i;
-  }
-  
-  logtrace::verbosity & logtrace::globalverb() {
-    static logtrace::verbosity verb = logtrace::error;
-    return verb;
-  }
-  
-  
-  std::set<std::string> & logtrace::filter() {
-    static std::set<std::string> filters;
-    return filters;
-  }
-  
-  std::set<std::string> & logtrace::ignore() {
-    static std::set<std::string> ignores;
-    return ignores;
-  }
-  
-  void logtrace::open(const std::string & filename) {
-    std::ofstream * filestream = new std::ofstream(filename, std::ofstream::out | std::ofstream::trunc);
-    if (logstream() != &std::cout) { logstream()->flush(); delete logstream(); }
-    logstream() = filestream;
-  }
-  
-  logtrace::logtrace(const std::string & module, logtrace::verbosity level) : logtrace(module, "", level) { }
-  logtrace::logtrace(logtrace::verbosity level) : logtrace("", "", level) { }
-  logtrace::logtrace(const std::string & module, const std::string & trace, logtrace::verbosity level) 
+  inline logtrace::logtrace(const std::string & module, logtrace::verbosity level) : logtrace(module, "", level) { }
+  inline logtrace::logtrace(logtrace::verbosity level) : logtrace("", "", level) { }
+  inline logtrace::logtrace(const std::string & module, const std::string & trace, logtrace::verbosity level)
   : trace(trace)
   , tracemodule(module)
   , level(level)
@@ -279,7 +246,7 @@
     mark();
   }
   
-  void logtrace::mark() {
+  inline void logtrace::mark() {
     if (traced || !check() || globalverb() < maximum || tracemodule.empty()) return;
     for (int i = 0; i < indent(); i++) *logstream() << "  ";
     *logstream() << "[ In " << tracemodule << (trace.empty() ? "" : ": ") << trace << std::endl;
@@ -288,7 +255,7 @@
     done = true;
   }
   
-  bool logtrace::check() {
+  inline bool logtrace::check() {
     if (globalverb() < level) return false; /* check if verbosity level allows */
       
       /* check to see if there's a filter and if this is string is in there */
@@ -307,14 +274,14 @@
   
   
   
-  logtrace::~logtrace() {
+  inline logtrace::~logtrace() {
     if ((globalverb() < maximum && !traced) || tracemodule.empty() || (!check())) return;
     indent()--;
     for (int i = 0; i < indent(); i++) *logstream() << "  ";
     *logstream() << "] Leaving " << tracemodule << (trace.empty() ? "" : ": ") << trace << std::endl;
   }
   
-  void logtrace::module (const std::string & mod) {
+  inline void logtrace::module (const std::string & mod) {
     tracemodule = mod;
   }
   
