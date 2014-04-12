@@ -94,13 +94,7 @@
         char buffer[bufsize];
       };
       
-      static void initandroidlog() {
-        static bool initialized = false;
-        if (!initialized) {
-          std::cout.rdbuf(new androidbuf);
-          initialized = true;
-        }
-      }
+      static void initandroidlog();
       #endif
     
     public:
@@ -234,9 +228,9 @@
       void mark(); /* put the "entering in" when needed */
   };
   
-  inline logtrace::logtrace(const std::string & module, logtrace::verbosity level) : logtrace(module, "", level) { }
-  inline logtrace::logtrace(logtrace::verbosity level) : logtrace("", "", level) { }
-  inline logtrace::logtrace(const std::string & module, const std::string & trace, logtrace::verbosity level)
+  inline ltapi logtrace::logtrace(const std::string & module, logtrace::verbosity level) : logtrace(module, "", level) { }
+  inline ltapi logtrace::logtrace(logtrace::verbosity level) : logtrace("", "", level) { }
+  inline ltapi logtrace::logtrace(const std::string & module, const std::string & trace, logtrace::verbosity level)
   : trace(trace)
   , tracemodule(module)
   , level(level)
@@ -247,7 +241,7 @@
     mark();
   }
   
-  inline void logtrace::mark() {
+  inline void ltapi logtrace::mark() {
     if (traced || !check() || globalverb() < maximum || tracemodule.empty()) return;
     for (int i = 0; i < indent(); i++) *logstream() << "  ";
     *logstream() << "[ In " << tracemodule << (trace.empty() ? "" : ": ") << trace << std::endl;
@@ -256,7 +250,7 @@
     done = true;
   }
   
-  inline bool logtrace::check() {
+  inline bool ltapi logtrace::check() {
     if (globalverb() < level) return false; /* check if verbosity level allows */
       
       /* check to see if there's a filter and if this is string is in there */
@@ -275,7 +269,7 @@
   
   
   
-  inline logtrace::~logtrace() {
+  inline ltapi logtrace::~logtrace() {
     if ((globalverb() < maximum && !traced) || tracemodule.empty() || (!check())) return;
     indent()--;
     for (int i = 0; i < indent(); i++) *logstream() << "  ";

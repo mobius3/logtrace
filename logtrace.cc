@@ -1,5 +1,13 @@
 #include "logtrace.h"
 
+void logtrace::initandroidlog() {
+  static bool initialized = false;
+  if (!initialized) {
+    std::cout.rdbuf(new androidbuf);
+    initialized = true;
+  }
+}
+
 /* logtrace static calls */
 std::ostream *& logtrace::logstream() {
   static std::ostream * stream = &std::cout;
