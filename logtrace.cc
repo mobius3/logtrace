@@ -1,5 +1,6 @@
 #include "logtrace.h"
 
+#ifdef ANDROID
 void logtrace::initandroidlog() {
   static bool initialized = false;
   if (!initialized) {
@@ -7,6 +8,7 @@ void logtrace::initandroidlog() {
     initialized = true;
   }
 }
+#endif 
 
 /* logtrace static calls */
 std::ostream *& logtrace::logstream() {
