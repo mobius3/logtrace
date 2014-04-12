@@ -16,13 +16,14 @@
 #include <android/log.h>
 #endif
 
-
 #if defined(_WIN32)
-# if !defined(__GNUC__)
-#   pragma warning(1 : 4519) /* VC++, please... */
-#   pragma warning(disable : 4514)
-#   pragma warning(disable : 4820);
-# endif
+#   if defined(logtrace_EXPORTS) || defined(logtrace_build_dll) /* defined by cmake, thanks god. */
+#       define  ltapi  __declspec(dllexport) 
+#   else
+#       define  ltapi  __declspec(dllimport) 
+#   endif
+#else
+#   define ltapi
 #endif
 
   /**
@@ -61,7 +62,7 @@
    * @endcode
    * 
    */
-  class logtrace {
+  class ltapi logtrace {
     private:
       #ifdef ANDROID
       // Based on http://stackoverflow.com/questions/8870174/is-stdcout-usable-in-android-ndk
